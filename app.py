@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import joblib
 import folium
+import calendar
 import requests
 from pathlib import Path
 from streamlit_folium import st_folium
@@ -60,7 +61,12 @@ humidity = st.sidebar.slider("Humidity (%)", 10.0, 100.0, clamp(values["humidity
 wind = st.sidebar.slider("Max wind speed (km/h)", 0.0, 80.0, clamp(values["wind"], 0, 80), step=1.0)
 temp_mean = st.sidebar.slider("Average temperature (°C)", 5.0, 45.0, clamp(values["temp"], 5, 45), step=0.5)
 temp_max = st.sidebar.slider("Maximum temperature (°C)", 10.0, 50.0, clamp(values["temp_max"], 10, 50), step=0.5)
-month = st.sidebar.selectbox("Month", list(range(1, 13)), index=pd.Timestamp.today().month - 1)
+month = st.sidebar.selectbox(
+    "Month",
+    list(range(1, 13)),
+    index=pd.Timestamp.today().month - 1,
+    format_func=lambda m: calendar.month_name[m],
+)
 
 # ---------- Predict risk for every locality ----------
 df = areas.copy()
